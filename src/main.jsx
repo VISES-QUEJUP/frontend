@@ -1,20 +1,25 @@
-import React from 'react'
+  import React from 'react'
 import ReactDOM from 'react-dom/client'
 //import App from './App.jsx'
 import './index.css'
 import {createBrowserRouter,RouterProvider} from 'react-router-dom';
 import Register from './components/Register.jsx'
 import Login from './components/Login';
+import Publicacion from './components/Publicacion';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/login',
     element: <Login/>,
     errorElement: <h1>Error, lugar no econtrado master :c</h1>
   },
   {
-    path:'/registro',
-    element: <Register/>
+    path:'/register',
+    element: <Register/>,
+  },
+  {
+    path: '/',
+    element: <Publicacion/>
   }
   
 ])
