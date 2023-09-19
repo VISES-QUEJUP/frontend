@@ -1,31 +1,21 @@
-  import React from 'react'
-import ReactDOM from 'react-dom/client'
-//import App from './App.jsx'
-import './index.css'
-import {createBrowserRouter,RouterProvider} from 'react-router-dom';
-import Register from './components/Register.jsx'
-import Login from './components/Login';
+import './index.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Registrar from './pages/Registrar';
+import Ingresar from './pages/Ingresar';
 import Publicacion from './components/Publicacion';
-
-const router = createBrowserRouter([
-  {
-    path: '/login',
-    element: <Login/>,
-    errorElement: <h1>Error, lugar no econtrado master :c</h1>
-  },
-  {
-    path:'/register',
-    element: <Register/>,
-  },
-  {
-    path: '/',
-    element: <Publicacion/>
-  }
-  
-])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
-)
+    <Router>
+      <Routes>
+        <Route path="/" element={<h1>Hola</h1>} />
+        <Route path="/ingresar" element={<Ingresar />} />
+        <Route path="/registrar" element={<Registrar />} />
+        <Route path="/publicacion" element={<Publicacion />} />
+        <Route path="*" element={<h1>Error, lugar no encontrado master :c</h1>} />
+      </Routes>
+    </Router>
+  </React.StrictMode>
+);

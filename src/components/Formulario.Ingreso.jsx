@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import PalabrasAleatorias from "./PalabrasAleatorias"
+import PalabrasAleatorias from "./Palabras.Aleatorias"
 export default function Form() {
     return (
         <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-100">
@@ -51,7 +51,7 @@ export default function Form() {
                 </div>
                 <div className="mt-8 flex justify-center items-center">
                     <p className="font-medium text-base">¿No tienes cuenta?</p>
-                    <Link to={'/registro'} className="text-blue-400 text-base font-medium ml-2 hover:text-blue-600">Registrarme</Link>
+                    <Link to={'/registrar'} className="text-blue-400 text-base font-medium ml-2 hover:text-blue-600">Registrarme</Link>
                 </div>
             </div>
 

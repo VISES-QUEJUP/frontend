@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Circle = styled.span`
+const Circle = styled.span.withConfig({ shouldForwardProp: (prop) => prop !== 'estado' })`
   width: 23px;
   height: 23px;
   border-radius: 50%;
@@ -19,6 +19,7 @@ const Circle = styled.span`
   }};
 `;
 
+// eslint-disable-next-line react/prop-types
 function EstadoQueja({estado}) {
   return <Circle estado={estado}></Circle>;
 }
