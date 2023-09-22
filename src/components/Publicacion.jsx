@@ -1,9 +1,10 @@
 import EstadoQueja from './Estado.Queja';
 import img from '../images/buho.png';
-import img2 from '../images/img2.jpeg'; 
-import location from '../assets/location.png';
-
+import img2 from '../images/img2.jpeg';
+import { BsHeart } from 'react-icons/bs'
+import { SlLocationPin } from 'react-icons/sl'
 const Publicacion = () => {
+
 
   return (
     <div className='flex justify-center items-center h-screen bg-slate-300'>
@@ -49,21 +50,15 @@ const Publicacion = () => {
           <div className="flex">
             {/* Imagen de corazón */}
             <div>
-              {/* Cuando se hace clic en la imagen, se llama a handleMeGustaClick */}
-              <img
-                src={'/s'}
+              <BsHeart
                 alt="Me gusta"
-                // onClick={}
-                style={{ cursor: 'pointer', marginRight: '8px' }}
-              />
+                style={{ width: '25px', height: '25px', cursor: 'pointer', marginRight: '8px' }} />
             </div>
             {/* Imagen de ubicación */}
             <div>
-              <img
-                src={location}
+              <SlLocationPin
                 alt="Ubicación"
-                style={{ cursor: 'pointer' }}
-              />
+                style={{ width: '25px', height: '25px', cursor: 'pointer', marginRight: '8px' }} />
             </div>
           </div>
           <EstadoQueja estado={1} />
