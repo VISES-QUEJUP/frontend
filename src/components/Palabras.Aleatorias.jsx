@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function PalabrasAleatorias() {
+function PalabrasAleatorias( ) {
   const palabras = [
     "¡Bienvenido!",    // Español
     "¡Welcome!",        // Inglés
@@ -9,7 +9,6 @@ function PalabrasAleatorias() {
   ];
 
   const [palabraActual, setPalabraActual] = useState();
-
   useEffect(() => {
     const generarPalabraAleatoria = () => {
       const palabraAleatoria = palabras[Math.floor(Math.random() * palabras.length)];
