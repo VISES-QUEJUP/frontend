@@ -5,9 +5,10 @@ import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
 const Publicacion = ({queja,usuario}) => {
   return (
-    <div className='flex justify-center items-center h-screen bg-slate-300'>
-      <div className="max-w-screen-xl mx-auto shadow-lg m-4 bg-white rounded-md overflow-hidden h-max">
-        <div className="flex items-center p-4">
+    
+    <div className='w-auto h-auto bg-gradient-to-tr from-green-400 to-blue-400 flex justify-center items-center pt-3'>
+      <div className="h-auto w-auto bg-white overflow-hidden">
+        <div className="flex items-center m-5">
           <div className="w-10 h-10 rounded-full overflow-hidden mr-2">
             <img
               src={buho}
@@ -23,12 +24,12 @@ const Publicacion = ({queja,usuario}) => {
         </div>
 
         {/* Imagen de la publicación */}
-        <div className="px-6 py-4">
+        <div className="py-4">
           {/* Imagen de la publicación con altura ajustable */}
           <img
             src={img2}
             alt="Descripción de la imagen"
-            className="w-full h-auto md:h-96"
+            className="w-screen h-96 md:h-96"
           />
         </div>
 
