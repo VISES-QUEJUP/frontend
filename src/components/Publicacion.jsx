@@ -3,9 +3,23 @@ import buho from '../images/buho.png';
 import img2 from '../images/img2.jpeg';
 import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
-const Publicacion = ({queja,usuario}) => {
+import { useState } from 'react';
+import Modal from "./Modal"
+
+const Publicacion = ({ queja, usuario }) => {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
-    
+
     <div className='w-auto h-auto bg-gradient-to-tr from-green-400 to-blue-400 flex justify-center items-center pt-3'>
       <div className="h-auto w-auto bg-white overflow-hidden">
         <div className="flex items-center m-5">
@@ -44,7 +58,7 @@ const Publicacion = ({queja,usuario}) => {
         <div className="px-6 py-4 flex justify-between items-center">
           {/* Contenedor para las imágenes */}
           <div className="flex">
-            
+
             {/* Botón de corazón */}
             <div>
               <BsHeart
@@ -52,7 +66,7 @@ const Publicacion = ({queja,usuario}) => {
                 style={{ width: '25px', height: '25px', cursor: 'pointer', marginRight: '8px' }} />
             </div>
             {/* Botón de ubicación */}
-            <div>
+            <div onClick={openModal}>
               <SlLocationPin
                 alt="Ubicación"
                 style={{ width: '25px', height: '25px', cursor: 'pointer', marginRight: '8px' }} />
@@ -61,10 +75,11 @@ const Publicacion = ({queja,usuario}) => {
           <EstadoQueja estado={1} />
         </div>
         <div className="px-6 py-2">
-
         </div>
       </div>
+      <Modal isOpen={modalOpen} closeModal={closeModal} />
     </div>
+    
   );
 }
 
