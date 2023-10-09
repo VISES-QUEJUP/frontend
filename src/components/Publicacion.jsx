@@ -20,7 +20,7 @@ const Publicacion = ({ queja, usuario }) => {
 
   return (
 
-    <div className='w-auto h-auto bg-gradient-to-tr from-green-400 to-blue-400 flex justify-center items-center pt-3'>
+    <div className='w-auto h-auto flex justify-center items-center pt-3 border-2 border-gray-300 my-1'>
       <div className="h-auto w-auto bg-white overflow-hidden">
         <div className="flex items-center m-5">
           <div className="w-10 h-10 rounded-full overflow-hidden mr-2">
@@ -77,7 +77,7 @@ const Publicacion = ({ queja, usuario }) => {
         <div className="px-6 py-2">
         </div>
       </div>
-      <Modal isOpen={modalOpen} closeModal={closeModal} />
+      <Modal isOpen={modalOpen} closeModal={closeModal} latitud={-27.443549} longitud={-55.886544} />
     </div>
     
   );

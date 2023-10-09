@@ -1,26 +1,35 @@
-const Modal = ({ isOpen, closeModal }) => {
+import React from 'react';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+const Modal = ({ isOpen, closeModal, latitud, longitud }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 mx-5">
-          <div className="sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl">
+        <div className="bg-gray-500 bg-opacity-50 backdrop-blur-lg fixed inset-0 flex items-center justify-center z-50 w-full h-full">
+          <div className="w-full lg:w-3/4 relative"> {/* Cambiamos relative para que el botón de cerrar esté posicionado con respecto a este div */}
             <div className="bg-white rounded-xl overflow-hidden shadow-md">
-              {/* Encabezado de la tarjeta */}
+              <button
+                onClick={closeModal}
+                className="absolute top-2 right-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full mt-1"
+              >
+                X
+              </button>
               <div className="bg-blue-500 p-4 text-white">
-                <h2 className="text-2xl font-semibold">Modal de Tarjeta</h2>
+                <h2 className="text-2xl font-semibold">Ubicación</h2>
               </div>
-              {/* Contenido del modal */}
-              <div className="p-8">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta explicabo deleniti dolor quibusdam corrupti impedit possimus facilis, maiores dignissimos temporibus hic aliquid quod a inventore rem reprehenderit eveniet ad quae!</p> 
-             </div>
-              {/* Botón para cerrar el modal */}
-              <div className="p-4 text-center">
-                <button
-                  onClick={closeModal}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              <div className='w-full h-96'>
+                <MapContainer
+                  center={[latitud, longitud]}
+                  zoom={20}
+                  style={{ height: '100%', width: '100%' }}
                 >
-                  Cerrar Modal
-                </button>
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+
+                  <Marker position={[latitud, longitud]}></Marker>
+                </MapContainer>
               </div>
             </div>
           </div>
