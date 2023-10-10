@@ -15,8 +15,8 @@ const Modal = ({ isOpen, closeModal, latitud, longitud }) => {
               >
                 X
               </button>
-              <div className="bg-blue-500 p-4 text-white">
-                <h2 className="text-2xl font-semibold">Ubicación</h2>
+              <div className="bg-black p-4 text-white text-center">
+                <h2 className="text-2xl font-semibold text-white">Ubicación</h2>
               </div>
               <div className='w-full h-96'>
                 <MapContainer

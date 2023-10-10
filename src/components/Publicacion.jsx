@@ -1,6 +1,6 @@
 import EstadoQueja from './Estado.Queja';
 import buho from '../images/buho.png';
-import img2 from '../images/img2.jpeg';
+import img2 from '../images/img2.jpg';
 import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
 import { useState } from 'react';
