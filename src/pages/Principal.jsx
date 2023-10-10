@@ -76,7 +76,7 @@ function Principal() {
         </div>
 
         <div className='cursor-pointer flex lg:hover:bg-gray-200 lg:w-full rounded '>
-          <div className="w-10 h-10 rounded-full overflow-hidden md:w-9 md:h-9 lg:ml-1">
+          <div className="w-6 h-6 rounded-full overflow-hidden md:w-9 md:h-9 lg:ml-1">
             <img
               src={buho}
               alt="Foto de perfil del usuario"

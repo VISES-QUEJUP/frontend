@@ -20,9 +20,9 @@ const Publicacion = ({ queja, usuario }) => {
 
   return (
 
-    <div className='w-auto h-auto flex justify-center items-center pt-3 border-2 border-gray-300 my-1'>
+    <div className='w-auto h-auto flex justify-center items-center border-2 border-gray-300 my-1'>
       <div className="h-auto w-auto bg-white overflow-hidden">
-        <div className="flex items-center m-5">
+        <div className="flex items-center m-3">
           <div className="w-10 h-10 rounded-full overflow-hidden mr-2">
             <img
               src={buho}
@@ -30,10 +30,15 @@ const Publicacion = ({ queja, usuario }) => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div>
-            <div className="font-semibold text-base">{usuario.name}</div>
-            {/* Muestra la hora de la publicación */}
-            <div className="text-xs text-gray-500">{/*TIEMPO*/}</div>
+          <div className=''>
+            <div className="flex items-center">
+              <div className="font-semibold text-base mr-2">{usuario.name}</div>
+              <div className="w-1 h-1 rounded-full bg-gray-500 mr-2"></div>
+              <div className="text-xs text-gbg-gray-500">hace un momento</div>
+            </div>
+
+
+            <h1 className='text-xs '>Ruidos molestos</h1>
           </div>
         </div>
 
@@ -42,19 +47,19 @@ const Publicacion = ({ queja, usuario }) => {
           {/* Imagen de la publicación con altura ajustable */}
           <img
             src={img2}
-            alt="Descripción de la imagen"
-            className="w-screen h-96 md:h-96"
+            alt="Descripción de la imagen "
+            className="w-screen h-96 md:h-96 rounded-xl"
           />
         </div>
 
         {/* Información de la publicación */}
         <div className="px-6 py-4">
-          <p className="text-sm text-gray-600">
-            {queja.cuerpo}
+          <p className="text-sm">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos rerum porro quisquam error ut perspiciatis aperiam delectus. Autem optio molestias quod odio provident sequi, praesentium, consectetur in fugit aliquam hic!
           </p>
         </div>
 
-        {/* Botones de interacción (por ejemplo, Me gusta y ubicacion) */}
+        {/* Botones de interacción*/}
         <div className="px-6 py-4 flex justify-between items-center">
           {/* Contenedor para las imágenes */}
           <div className="flex">
@@ -72,14 +77,14 @@ const Publicacion = ({ queja, usuario }) => {
                 style={{ width: '25px', height: '25px', cursor: 'pointer', marginRight: '8px' }} />
             </div>
           </div>
-          <EstadoQueja estado={1} />
+          <EstadoQueja estado={3} />
         </div>
         <div className="px-6 py-2">
         </div>
       </div>
       <Modal isOpen={modalOpen} closeModal={closeModal} latitud={-27.443549} longitud={-55.886544} />
     </div>
-    
+
   );
 }
 
