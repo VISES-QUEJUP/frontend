@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import EstadoQueja from './Estado.Queja';
 import buho from '../images/buho.png';
 import img2 from '../images/img2.jpg';
@@ -5,8 +6,9 @@ import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
 import { useState } from 'react';
 import Modal from "./Modal"
+import { mensajeTiempo } from '../functions/calcularTiempo';
 
-const Publicacion = ({ queja, usuario }) => {
+const Publicacion = ({ usuario }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -18,6 +20,8 @@ const Publicacion = ({ queja, usuario }) => {
     setModalOpen(false);
   };
 
+
+  
   return (
 
     <div className='w-auto h-auto flex justify-center items-center border-2 border-gray-300 my-1'>
@@ -34,7 +38,7 @@ const Publicacion = ({ queja, usuario }) => {
             <div className="flex items-center">
               <div className="font-semibold text-base mr-2">{usuario.name}</div>
               <div className="w-1 h-1 rounded-full bg-gray-500 mr-2"></div>
-              <div className="text-xs text-gbg-gray-500">hace un momento</div>
+              <div className="text-xs text-gbg-gray-500">{mensajeTiempo(usuario.createdAt)}</div>
             </div>
 
 
