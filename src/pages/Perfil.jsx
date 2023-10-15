@@ -6,9 +6,9 @@ export default function Perfil() {
         <>
             <div className=" w-auto h-auto flex justify-around">
                 <Nav />
-                <div className=' bg-gradient-to-tr from-white to-slate-400 w-full h-96 mt-14 my-1 border-2 border-gray-300 flex md:ml-10 md:-mt-1 '>
+                <div className=' bg-gradient-to-tr from-white to-gray-300    w-full h-screen mt-14 border-gray-300 flex md:ml-10 md:-mt-1 '>
                     <div className="w-full h-full flex flex-col items-center justify-center lg:ml-64">
-                        <div className="w-48 h-48 rounded-full overflow-hidden bg-slate-400">
+                        <div className="-scroll-mt-10 w-48 h-48 rounded-full overflow-hidden">
                             <img
                                 src={buho}
                                 alt="Foto de perfil del usuario"

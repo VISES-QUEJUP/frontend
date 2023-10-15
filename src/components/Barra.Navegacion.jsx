@@ -17,7 +17,9 @@ export default function Nav() {
     const handleClickInicio =()=>{
         navigate("/")
     }
-
+    const handleClickQueja =()=>{
+        navigate("/queja")
+    }
     return (
         <>
             <div className=' bg-white sm: fixed w-full h-12 top-0 text-center md:hidden' onClick={handleClickInicio}>
@@ -44,7 +46,7 @@ export default function Nav() {
                         <p className='hidden lg:block mt-2'>Buscar</p>
                     </div>
 
-                    <div className='cursor-pointer flex lg:hover:bg-gray-200 lg:w-full rounded'>
+                    <div className='cursor-pointer flex lg:hover:bg-gray-200 lg:w-full rounded' onClick={handleClickQueja}>
                         <BsPlusCircle className='h-1/2 w-auto  md:h-7 lg:m-2'/>
                         <p className='hidden lg:block mt-2'>Queja</p>
                     </div>
