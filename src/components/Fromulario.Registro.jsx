@@ -15,7 +15,8 @@ export default function Form() {
     initialValues: {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      password2: ""
     },
     //validacion
     validationSchema: Yup.object({
