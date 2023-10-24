@@ -1,8 +1,43 @@
 import { Link } from "react-router-dom"
 import PalabrasAleatorias from "./Palabras.Aleatorias"
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import axios from "axios";
+import { useState } from "react";
 export default function Form() {
+
+    // eslint-disable-next-line no-unused-vars
+    const [error, setError] = useState(null); // Estado para el mensaje de error
+    // ...
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: ""
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email("Debe ingresar un correo electrónico válido")
+                .required("Debe ingresar su correo")
+                .matches(
+                    /^(?=.*[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|icloud)\.(com|es|co|uk|...))/,
+                    "Ingrese una dirección de correo electrónico válido (gmail, hotmail, outlook, icloud)"
+                ),
+            password: Yup.string()
+                .required("Debe ingresar su contraseña")
+        }),
+        onSubmit: async (data) => {
+            try {
+                await axios.post("http://localhost:3000/api/user/login", data);
+                setError("Exito")
+            } catch (error) {
+                setError(error.response.data.message);
+            }
+        }
+    });
+
     return (
-        <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-100">
+        <form onSubmit={formik.handleSubmit} className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-100">
             <PalabrasAleatorias />
             <div className="mt-3 w-full h-1 bg-gradient-to-tr from-green-400 to-blue-400 rounded-full " />
             <p className="font-medium text-lg text-gray-500 mt-5 text-center">A continuación, ingrese sus datos:</p>
@@ -13,7 +48,15 @@ export default function Form() {
                     <input
                         className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Por favor, ingrese su email."
+                        name="email"
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
                     />
+
+                    {formik.touched.email && formik.errors.email ? (
+                        <div className="text-red-600 mt-2">{formik.errors.email}</div>
+                    ) : null}
+
                 </div>
 
                 <div>
@@ -22,9 +65,15 @@ export default function Form() {
                         type="password"
                         className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
                         placeholder="Por favor, ingrese su contraseña."
+                        name="password"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
                     />
-                </div>
 
+                    {formik.touched.password && formik.errors.password ? (
+                        <div className="text-red-600 mt-2">{formik.errors.password}</div>
+                    ) : null}
+                </div>
 
                 <div className="mt-8 flex justify-between items-center">
                     <div>
@@ -36,10 +85,11 @@ export default function Form() {
                     </div>
                     <button className="font-medium text-base text-blue-400  hover:text-blue-600">Olvidé mi contraseña</button>
                 </div>
-                <div className="mt-8 flex flex-col gap-y-4">
-                    <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all  py-3 rounded-xl  bg-blue-500 text-white text-lg font-bold  hover:bg-blue-600">Ingresar</button>
+                {error && <div className="text-red-600 my-5">{error}</div>}
+                <div className="flex flex-col gap-y-4">
+                    <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all  py-3 rounded-xl  bg-blue-500 text-white text-lg font-bold  hover:bg-blue-600" type="submit">Ingresar</button>
                     <button
-                        className='flex items-center justify-center gap-2 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4  rounded-xl text-gray-700 font-semibold text-lg border-2 border-gray-100 '>
+                        className='flex items-center justify-center gap-2 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4  rounded-xl text-gray-700 font-semibold text-lg border-2 border-gray-100  ' type="button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.26644 9.76453C6.19903 6.93863 8.85469 4.90909 12.0002 4.90909C13.6912 4.90909 15.2184 5.50909 16.4184 6.49091L19.9093 3C17.7821 1.14545 15.0548 0 12.0002 0C7.27031 0 3.19799 2.6983 1.24023 6.65002L5.26644 9.76453Z" fill="#EA4335" />
                             <path d="M16.0406 18.0142C14.9508 18.718 13.5659 19.0926 11.9998 19.0926C8.86633 19.0926 6.21896 17.0785 5.27682 14.2695L1.2373 17.3366C3.19263 21.2953 7.26484 24.0017 11.9998 24.0017C14.9327 24.0017 17.7352 22.959 19.834 21.0012L16.0406 18.0142Z" fill="#34A853" />
@@ -54,7 +104,6 @@ export default function Form() {
                     <Link to={'/registrar'} className="text-blue-400 text-base font-medium ml-2 hover:text-blue-600">Registrarme</Link>
                 </div>
             </div>
-
-        </div>
+        </form>
     )
 }

@@ -3,7 +3,7 @@ import EstadoQueja from './Estado.Queja';
 import buho from '../images/buho.png';
 import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
-import { useState,useEffect } from 'react';
+import { useState} from 'react';
 import Modal from "./Modal"
 import { mensajeTiempo } from '../functions/calcularTiempo';
 
@@ -18,11 +18,6 @@ const Publicacion = ({ publicacion }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  
-  useEffect(() => {
-    console.log(publicacion);
-  }, []);
-
   
   return (
 

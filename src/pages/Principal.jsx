@@ -24,8 +24,8 @@ function Principal() {
     <div className=" w-auto h-auto flex justify-around">
       <Nav />
       <div className='mt-12 mb-4 md:mt-0 md:mb-0 md:w-1/2'>
-        {publicacion.map((publicacion, index) => (
-          <Publicacion key={publicacion.id} publicacion={publicacion} index={index} />
+        {publicacion.map((publicacion) => (
+          <Publicacion key={publicacion.id} publicacion={publicacion} />
         ))}
 
 
