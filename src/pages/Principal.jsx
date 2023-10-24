@@ -3,41 +3,20 @@ import axios from 'axios';
 import Publicacion from '../components/Publicacion';
 import Nav from '../components/Barra.Navegacion';
 
-
-
 function Principal() {
-  const [usuario, setUsuario] = useState([]);
-  const [queja, setQueja] = useState([]);
+  const [publicacion, setPublicacion] = useState([]);
 
-  const ListadoUsuarios = async () => {
+  const ListadoPublicaciones = async () => {
     try {
-
-      const respuesta = await axios.get('http://localhost:3000/api/users')
-      console.log(respuesta)
-      setUsuario(respuesta.data)
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const ListadoQuejas = async () => {
-    try {
-
-      const respuesta = await axios.get('http://localhost:3000/api/quejas')
-      console.log(respuesta)
-      setQueja(respuesta.data)
-
+      const respuesta = await axios.get('http://localhost:3000/api/publicacion')
+      setPublicacion(respuesta.data)
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    ListadoUsuarios();
-    console.log(usuario)
-    ListadoQuejas()
-    console.log(queja)
+    ListadoPublicaciones();
   }, []);
 
   return (
@@ -45,9 +24,10 @@ function Principal() {
     <div className=" w-auto h-auto flex justify-around">
       <Nav />
       <div className='mt-12 mb-4 md:mt-0 md:mb-0 md:w-1/2'>
-        {usuario.map((user) => (
-          <Publicacion key={user.id} usuario={user} queja={queja} />
+        {publicacion.map((publicacion, index) => (
+          <Publicacion key={publicacion.id} publicacion={publicacion} index={index} />
         ))}
+
 
       </div>
     </div>

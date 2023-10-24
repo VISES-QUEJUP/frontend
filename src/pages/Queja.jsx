@@ -9,46 +9,62 @@ import * as Yup from "yup";
 import { SlLocationPin } from 'react-icons/sl';
 import Modal from '../components/Modal';
 import { CiCircleAlert } from "react-icons/ci"
-
+import axios from "axios"
 export default function Queja() {
-    // eslint-disable-next-line no-unused-vars
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-          const imageUrl = URL.createObjectURL(selectedFile);
-          setSelectedFile(selectedFile);
-          setImageUrl(imageUrl);
-          console.log(selectedFile)
+            const imageUrl = URL.createObjectURL(selectedFile);
+            setSelectedFile(selectedFile);
+            setImageUrl(imageUrl);
+            formik.handleChange(e);
         }
-        formik.handleChange(e);
-      };
-            
+
+    };
+
     const formik = useFormik({
         initialValues: {
             opcion: "",
-            imagen:undefined,
-            lon: "",
-            lat: "",
             descripcionProblema: "",
+            lat: "",
+            lon: ""
         },
-        //validacion
         validationSchema: Yup.object({
-            opciones: Yup.string().required("No se registro un tipo de queja."),
+            opcion: Yup.string().required("No se registro un tipo de queja."),
             imagen: Yup.mixed().test('fileRequired', 'Debe cargar una imagen', (value) => {
                 return value !== null && value !== undefined;
-              }),
+            }),
             lon: Yup.string().required("No se registro una Ubicación."),
             lat: Yup.string().required("No se registro una Ubicación."),
             descripcionProblema: Yup.string().required("No se registro una descripcion del problema.")
-            .min(20,"La descripción debe ser mas larga")
+                .min(20, "La descripción debe ser mas larga")
         }),
-        onSubmit: (data) => {
-            console.log(data)
+        onSubmit: async (data) => {
+            // Crea un nuevo FormData
+            const formdata = new FormData();
+            // Agrega la imagen
+            formdata.append("imagen", selectedFile);
+            // Agrega otros datos al FormData, excluyendo "imagen"
+            for (const key in data) {
+                // eslint-disable-next-line no-prototype-builtins
+                if (data.hasOwnProperty(key) && key !== "imagen") {
+                    formdata.append(key, data[key]);
+                }
+            }
+            // Realiza la solicitud Axios
+            try {
+                const response = await axios.post("http://localhost:3000/api/queja", formdata);
+                // Maneja la respuesta aquí
+                console.log("Respuesta de la API:", response);
+            } catch (error) {
+                console.error("Error al realizar la solicitud:", error);
+            }
         }
-    })
+        ,
+    });
 
     const [modalOpen, setModalOpen] = useState(false);
     const openModal = () => {
@@ -112,9 +128,9 @@ export default function Queja() {
                             className="cursor-pointer w-full h-14 border-2 rounded-lg"
                             onChange={(e) => {
                                 formik.handleChange(e);
-                                formik.setFieldValue("opciones", e.target.value);
+                                formik.setFieldValue("opcion", e.target.value);
                             }}
-                            value={formik.values.opciones}
+                            value={formik.values.opcion}
                         >
                             <option value="">Tipos de queja:</option>
                             <option value="Ruidos Molestos">Ruidos Molestos</option>
@@ -123,10 +139,10 @@ export default function Queja() {
                             <option value="Infraestructura obsoleta">Infraestructura obsoleta</option>
                         </select>
 
-                        {formik.errors.opciones && (
+                        {formik.errors.opcion && (
                             <div className="mt-5 flex items-center w-full h-14 border-2 border-red-600 rounded-lg text-center text-red-600">
                                 <CiCircleAlert className="h-8 w-10" />
-                                {formik.errors.opciones}</div>
+                                {formik.errors.opcion}</div>
                         )}
 
                         <div className="w-full h-14 border-2 rounded-lg m-5 flex items-center ">
@@ -141,7 +157,7 @@ export default function Queja() {
                             accept=".jpg, .jpeg, .png"
                             onChange={handleFileChange}
                         />
-                        
+
                         {formik.errors.imagen && (
                             <div className="mt-5 flex items-center w-full h-14 border-2 border-red-600 rounded-lg text-center text-red-600">
                                 <CiCircleAlert className="h-8 w-10" />
@@ -162,11 +178,11 @@ export default function Queja() {
 
                         </div>
                         {mostrarCoordenadas && (
-                            <div className='bg-gray-900 hover:bg-black text-white mb-5 flex items-center w-full h-14 border-2 rounded-lg cursor-pointer' onClick={openModal}>
-                                <SlLocationPin className='h-7 w-10 text-white' />
+                            <div className='bg-gray-900 hover:bg-black text-green-500 mb-5 flex items-center w-full h-14 border-2 rounded-lg cursor-pointer' onClick={openModal}>
+                                <SlLocationPin className='h-7 w-10 text-green-500' />
                                 <div className="flex-1"> {/* Agregamos un div contenedor para el texto */}
                                     <div className="flex items-center justify-center">
-                                        <h1>La ubicación se registro exitosamente aquí:</h1>
+                                        <h1>Ver la ubicación obtenida</h1>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +213,8 @@ export default function Queja() {
                             onChange={formik.handleChange}
                             value={formik.values.descripcionProblema}
                         ></textarea>
-                        
-                            
+
+
                         {formik.errors.descripcionProblema && (
                             <div className="mb-5 flex items-center w-full h-14 border-2 border-red-600 rounded-lg text-center text-red-600">
                                 <CiCircleAlert className="h-8 w-10" />

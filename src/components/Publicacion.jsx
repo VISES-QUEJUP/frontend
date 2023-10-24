@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 import EstadoQueja from './Estado.Queja';
 import buho from '../images/buho.png';
-import img2 from '../images/img2.jpg';
 import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Modal from "./Modal"
 import { mensajeTiempo } from '../functions/calcularTiempo';
 
-const Publicacion = ({ usuario }) => {
+const Publicacion = ({ publicacion }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -19,7 +18,10 @@ const Publicacion = ({ usuario }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  
+  useEffect(() => {
+    console.log(publicacion);
+  }, []);
 
   
   return (
@@ -36,13 +38,13 @@ const Publicacion = ({ usuario }) => {
           </div>
           <div className=''>
             <div className="flex items-center">
-              <div className="font-semibold text-base mr-2">{usuario.name}</div>
+              <div className="font-semibold text-base mr-2">{publicacion.Usuario.name}</div>
               <div className="w-1 h-1 rounded-full bg-gray-500 mr-2"></div>
-              <div className="text-xs text-gbg-gray-500">{mensajeTiempo(usuario.createdAt)}</div>
+              <div className="text-xs text-gbg-gray-500">{mensajeTiempo(publicacion.createdAt)}</div>
             </div>
 
 
-            <h1 className='text-xs '>Ruidos molestos</h1>
+            <h1 className='text-xs '>{publicacion.titulo}</h1>
           </div>
         </div>
 
@@ -50,7 +52,7 @@ const Publicacion = ({ usuario }) => {
         <div className="py-4">
           {/* Imagen de la publicación con altura ajustable */}
           <img
-            src={img2}
+            src={publicacion.secure_URL}
             alt="Descripción de la imagen "
             className="w-screen h-96 md:h-96 rounded-xl"
           />
@@ -59,12 +61,12 @@ const Publicacion = ({ usuario }) => {
         {/* Información de la publicación */}
         <div className="px-6 py-4">
           <p className="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos rerum porro quisquam error ut perspiciatis aperiam delectus. Autem optio molestias quod odio provident sequi, praesentium, consectetur in fugit aliquam hic!
+            {publicacion.cuerpo}
           </p>
         </div>
 
         {/* Botones de interacción*/}
-        <div className="px-6 py-4 flex justify-between items-center">
+        <div className="px-6 py-2 flex justify-between items-center">
           {/* Contenedor para las imágenes */}
           <div className="flex">
 
@@ -83,10 +85,11 @@ const Publicacion = ({ usuario }) => {
           </div>
           <EstadoQueja estado={3} />
         </div>
-        <div className="px-6 py-2">
+        <div className="h-7 my-3 w-full mb-5">
+            <p className='text-base ml-5'>{publicacion.cant_Votos} Me gusta</p>
         </div>
       </div>
-      <Modal isOpen={modalOpen} closeModal={closeModal} latitud={-27.443549} longitud={-55.886544} />
+      <Modal isOpen={modalOpen} closeModal={closeModal} latitud={publicacion.lat} longitud={publicacion.lon} />
     </div>
 
   );
