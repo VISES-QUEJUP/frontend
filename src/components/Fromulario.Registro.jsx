@@ -1,12 +1,21 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from '../context/authContext'
+
 
 export default function Form() {
   //utilizamos histori con la funcion useNavigate para redireccion al usuario a otra ruta
-  const history = useNavigate();
+  const navigate = useNavigate();
+
+  const { singUp, isAuthenticated, errors: RegisterErrors } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/")
+    }
+  },[isAuthenticated])
 
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -43,12 +52,11 @@ export default function Form() {
         ),
     }),
     //Evento submit
-    onSubmit: async (data) => {
+    onSubmit: async (values) => {
       try {
-        await axios.post(
-        "http://localhost:3000/api/user",data);
-        history('/ingresar');
+        singUp(values)
       } catch (error) {
+
         console.log(error);
       }
     },
@@ -99,7 +107,9 @@ export default function Form() {
   //formulario:
 
   return (
+
     <form onSubmit={formik.handleSubmit} className="h-screen">
+
       <div className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-100">
         <h1 className="text-5xl font-semibold text-center mb-8">Registro</h1>
         <div className="w-full h-1 bg-gradient-to-tr from-green-400 to-blue-400 rounded-full" />
@@ -121,7 +131,6 @@ export default function Form() {
               <div className="text-red-600 mt-2">{formik.errors.name}</div>
             ) : null}
           </div>
-
           <div>
             <label className="text-lg font-medium">Correo electronico.</label>
             <input
@@ -163,7 +172,7 @@ export default function Form() {
             ) : null}
             <div className="mt-2"></div>
           </div>
-          
+
           <div>
             <label className="text-lg font-medium">Confirmar Contraseña</label>
             <div className="relative">
@@ -201,6 +210,7 @@ export default function Form() {
               </div>
             ) : null}
           </div>
+          {RegisterErrors && <div className="text-red-600 my-5">{RegisterErrors}</div>}
           <div className="mt-8 flex flex-col gap-y-4">
             <button
               type="submit"
