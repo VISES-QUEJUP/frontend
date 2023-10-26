@@ -9,7 +9,10 @@ import * as Yup from "yup";
 import { SlLocationPin } from 'react-icons/sl';
 import Modal from '../components/Modal';
 import { CiCircleAlert } from "react-icons/ci"
-import axios from "axios"
+import {setQueja} from "../api/auth.js"
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/authContext'
+import { useEffect } from 'react';
 export default function Queja() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
@@ -24,13 +27,14 @@ export default function Queja() {
         }
 
     };
-
+    const { isAuthenticated, user } = useAuth();
     const formik = useFormik({
         initialValues: {
             opcion: "",
             descripcionProblema: "",
             lat: "",
-            lon: ""
+            lon: "",
+            UsuarioId:user.id
         },
         validationSchema: Yup.object({
             opcion: Yup.string().required("No se registro un tipo de queja."),
@@ -40,7 +44,7 @@ export default function Queja() {
             lon: Yup.string().required("No se registro una Ubicación."),
             lat: Yup.string().required("No se registro una Ubicación."),
             descripcionProblema: Yup.string().required("No se registro una descripcion del problema.")
-                .min(20, "La descripción debe ser mas larga")
+                .min(40, "La descripción debe ser mayor a 40 caracteres")
         }),
         onSubmit: async (data) => {
             // Crea un nuevo FormData
@@ -56,7 +60,7 @@ export default function Queja() {
             }
             // Realiza la solicitud Axios
             try {
-                const response = await axios.post("http://localhost:3000/api/queja", formdata);
+                const response = await setQueja(formdata);
                 // Maneja la respuesta aquí
                 console.log("Respuesta de la API:", response);
             } catch (error) {
@@ -106,7 +110,16 @@ export default function Queja() {
         event.preventDefault();
         obtenerCoordenadas();
     };
-
+    
+  const navigate = useNavigate();
+ 
+  
+  useEffect(() => {
+      if (!isAuthenticated) {
+          return navigate("/ingresar")
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated])
     return (
         <>
             <div className="w-auto h-auto flex justify-around">

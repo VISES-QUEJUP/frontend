@@ -1,15 +1,13 @@
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import PalabrasAleatorias from "./Palabras.Aleatorias"
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import axios from "axios";
-import { useState } from "react";
+import { useAuth } from "../context/authContext";
+import { useEffect } from "react";
+
 export default function Form() {
-
-    // eslint-disable-next-line no-unused-vars
-    const [error, setError] = useState(null); // Estado para el mensaje de error
-    // ...
-
+    const navigate=useNavigate()
+    const { singIn, errors: singInErrors,isAuthenticated} = useAuth();
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -28,13 +26,18 @@ export default function Form() {
         }),
         onSubmit: async (data) => {
             try {
-                await axios.post("http://localhost:3000/api/user/login", data);
-                setError("Exito")
+                singIn(data);
             } catch (error) {
-                setError(error.response.data.message);
+                console.log(error);
             }
         }
     });
+    useEffect(() => {
+        if (isAuthenticated) {
+          return navigate("/inicio")
+        }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[isAuthenticated])
 
     return (
         <form onSubmit={formik.handleSubmit} className="bg-white px-10 py-20 rounded-3xl border-2 border-gray-100">
@@ -76,19 +79,19 @@ export default function Form() {
                 </div>
 
                 <div className="mt-8 flex justify-between items-center">
-                    <div>
+                    {/* <div>
                         <input
                             type="checkbox"
                             id="recordar"
                         />
                         <label className="ml-2 font-medium text-base" htmlFor="recordar">Recordarme</label>
-                    </div>
+                    </div> */}
                     <button className="font-medium text-base text-blue-400  hover:text-blue-600">Olvidé mi contraseña</button>
                 </div>
-                {error && <div className="text-red-600 my-5">{error}</div>}
-                <div className="flex flex-col gap-y-4">
+                {singInErrors && <div className="text-red-600 mt-5">{singInErrors}</div>}
+                <div className="flex flex-col gap-y-4 mt-5">
                     <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all  py-3 rounded-xl  bg-blue-500 text-white text-lg font-bold  hover:bg-blue-600" type="submit">Ingresar</button>
-                    <button
+                    {/* <button
                         className='flex items-center justify-center gap-2 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4  rounded-xl text-gray-700 font-semibold text-lg border-2 border-gray-100  ' type="button">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.26644 9.76453C6.19903 6.93863 8.85469 4.90909 12.0002 4.90909C13.6912 4.90909 15.2184 5.50909 16.4184 6.49091L19.9093 3C17.7821 1.14545 15.0548 0 12.0002 0C7.27031 0 3.19799 2.6983 1.24023 6.65002L5.26644 9.76453Z" fill="#EA4335" />
@@ -97,7 +100,7 @@ export default function Form() {
                             <path d="M5.27698 14.2663C5.03833 13.5547 4.90909 12.7922 4.90909 11.9984C4.90909 11.2167 5.03444 10.4652 5.2662 9.76294L1.23999 6.64844C0.436587 8.25884 0 10.0738 0 11.9984C0 13.918 0.444781 15.7286 1.23746 17.3334L5.27698 14.2663Z" fill="#FBBC05" />
                         </svg>
                         Ingresar con Google
-                    </button>
+                    </button> */}
                 </div>
                 <div className="mt-8 flex justify-center items-center">
                     <p className="font-medium text-base">¿No tienes cuenta?</p>

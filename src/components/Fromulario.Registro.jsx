@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/authContext'
+import { Link } from "react-router-dom"
 
 
 export default function Form() {
@@ -13,8 +14,9 @@ export default function Form() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/")
+      return navigate("/inicio")
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[isAuthenticated])
 
   const [showPassword, setShowPassword] = useState(false);
@@ -219,6 +221,10 @@ export default function Form() {
               Registrarme
             </button>
           </div>
+          <div className="mt-8 flex justify-center items-center">
+                    <p className="font-medium text-base">¿Ya tienes una cuenta?</p>
+                    <Link to={'/ingresar'} className="text-blue-400 text-base font-medium ml-2 hover:text-blue-600">Ingresar</Link>
+                </div>
         </div>
       </div>
     </form>

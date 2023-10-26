@@ -1,6 +1,6 @@
-import { createContext, useState, useContext } from "react";
-import axios from "axios";
-
+import { createContext, useState, useEffect, useContext } from "react";
+import Cookies from "js-cookie"
+import { registrarse, iniciarSesion, verificarToken } from "../api/auth.js";
 export const AuthContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -14,15 +14,14 @@ export const useAuth = () => {
 }
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-
+    const [cargando,setCargando] = useState(true)
     const [user, setUser] = useState(null)
-    const [isAuthenticated,setIsAuthenticated] = useState(false)
-    // eslint-disable-next-line no-unused-vars
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [errors, setError] = useState(null)
 
-    const singUp = async (Values) => {
+    const singUp = async (user) => {
         try {
-            const res = await axios.post("http://localhost:3000/api/user", Values);
+            const res = await registrarse(user);
             console.log(res.data);
             setUser(res.data);
             setIsAuthenticated(true)
@@ -32,15 +31,69 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const singIn = async (user) => {
+        try {
+            const res = await iniciarSesion(user);
+            console.log(res.data);
+            setUser(res.data);
+            setIsAuthenticated(true)
+        } catch (error) {
+            setError(error.response.data.error)
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        if (errors) {
+            const timer = setTimeout(() => {
+                setError(null)
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [errors])
+
+    useEffect(() => {
+        async function checkLogin() {
+            const cookies = Cookies.get()
+            
+            if (!cookies.token) {
+                setIsAuthenticated(false);
+                setUser(null)
+                setCargando(false)
+                return;
+            }
+                try {
+                    const res =await verificarToken(cookies.token)
+                    
+                    if (!res.data) {
+                        setIsAuthenticated(false);
+                        setUser(null);
+                        setCargando(false)
+                        return;
+                    }
+                    setIsAuthenticated(true);
+                    setUser(res.data);
+                    setCargando(false)
 
 
+                } catch (error) {
+                    setIsAuthenticated(false);
+                    setUser(null);
+                    setCargando(false)
+                }
+
+        }
+        checkLogin();
+    }, [])
 
     return (
         <AuthContext.Provider value={{
+            singIn,
             singUp,
             user,
             errors,
-            isAuthenticated
+            isAuthenticated,
+            cargando
         }}>
             {children}
         </AuthContext.Provider >

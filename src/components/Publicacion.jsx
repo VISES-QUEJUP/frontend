@@ -3,7 +3,7 @@ import EstadoQueja from './Estado.Queja';
 import buho from '../images/buho.png';
 import { BsHeart } from 'react-icons/bs'
 import { SlLocationPin } from 'react-icons/sl'
-import { useState} from 'react';
+import { useState } from 'react';
 import Modal from "./Modal"
 import { mensajeTiempo } from '../functions/calcularTiempo';
 
@@ -18,10 +18,10 @@ const Publicacion = ({ publicacion }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  
+
   return (
 
-    <div className='w-auto h-auto flex justify-center items-center border-2 border-gray-300 my-1'>
+    <div className='w-auto h-auto flex justify-center items-center border-2 border-gray-300 my-5'>
       <div className="h-auto w-auto bg-white overflow-hidden">
         <div className="flex items-center m-3">
           <div className="w-10 h-10 rounded-full overflow-hidden mr-2">
@@ -48,9 +48,11 @@ const Publicacion = ({ publicacion }) => {
           {/* Imagen de la publicación con altura ajustable */}
           <img
             src={publicacion.secure_URL}
-            alt="Descripción de la imagen "
-            className="w-screen h-96 md:h-96 rounded-xl"
+            alt="Descripción de la imagen"
+            style={{ height: 'calc(100vh - 130px)' }}
+            className="w-screen rounded-xl"
           />
+
         </div>
 
         {/* Información de la publicación */}
@@ -81,7 +83,7 @@ const Publicacion = ({ publicacion }) => {
           <EstadoQueja estado={3} />
         </div>
         <div className="h-7 my-3 w-full mb-5">
-            <p className='text-base ml-5'>{publicacion.cant_Votos} Me gusta</p>
+          <p className='text-base ml-5'>{publicacion.cant_Votos} Me gusta</p>
         </div>
       </div>
       <Modal isOpen={modalOpen} closeModal={closeModal} latitud={publicacion.lat} longitud={publicacion.lon} />

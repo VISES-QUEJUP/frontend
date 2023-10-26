@@ -15,7 +15,7 @@ export default function Nav() {
         navigate("/perfil")
     } 
     const handleClickInicio =()=>{
-        navigate("/")
+        navigate("/inicio")
     }
     const handleClickQueja =()=>{
         navigate("/queja")

@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Publicacion from '../components/Publicacion';
 import Nav from '../components/Barra.Navegacion';
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/authContext'
+import { getPublicaciones } from '../api/auth.js';
 function Principal() {
   const [publicacion, setPublicacion] = useState([]);
 
   const ListadoPublicaciones = async () => {
     try {
-      const respuesta = await axios.get('http://localhost:3000/api/publicacion')
+      const respuesta = await getPublicaciones();
       setPublicacion(respuesta.data)
     } catch (error) {
       console.log(error)
@@ -18,6 +19,16 @@ function Principal() {
   useEffect(() => {
     ListadoPublicaciones();
   }, []);
+
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  
+  useEffect(() => {
+      if (!isAuthenticated) {
+          return navigate("/ingresar")
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated])
 
   return (
 
